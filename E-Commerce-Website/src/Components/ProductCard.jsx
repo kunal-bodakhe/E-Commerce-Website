@@ -1,31 +1,39 @@
 import React from "react";
 import { useState } from "react";
+import useStore from "../Store.js";
 
-import imageUrl from "../assets/Headphones.png"
-
+import imageUrl from "../assets/Headphones.png";
 
 function ProductCard() {
+  const { toggleDescription, showDescription } = useStore();
   // Placeholder data for the product
   const product = {
     name: "Premium Wireless Headphones",
-    description: "Experience immersive sound with these comfortable, noise-cancelling wireless headphones. Perfect for music lovers and professionals alike. Featuring crystal-clear audio, ergonomic design, and long-lasting battery life for all-day enjoyment.",
+    description:
+      "Experience immersive sound with these comfortable, noise-cancelling wireless headphones. Perfect for music lovers and professionals alike. Featuring crystal-clear audio, ergonomic design, and long-lasting battery life for all-day enjoyment.",
     price: "$199.99",
     imageUrl: imageUrl, // Updated placeholder for square
     imageAlt: "Premium Wireless Headphones",
+    rating: 4.5,
   };
 
   // State to manage the visibility of the description
-  const [showDescription, setShowDescription] = useState(false);
+  //   const [showDescription, setShowDescription] = useState(false);
 
-  // Function to toggle description visibility
-  const toggleDescription = () => {
-    setShowDescription(!showDescription);
-  };
+  //   // Function to toggle description visibility
+  //   const toggleDescription = () => {
+  //     setShowDescription(!showDescription);
+  //   };
 
   return (
     <div className=" max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden my-6">
       {/* Product Image Section - Enforces a square aspect ratio */}
-      <div className="relative w-full pt-[52%] cursor-pointer" onClick={toggleDescription}> {/* Added onClick and cursor-pointer */}
+      <div
+        className="relative w-full pt-[52%] cursor-pointer"
+        onClick={toggleDescription}
+      >
+        {" "}
+        {/* Added onClick and cursor-pointer */}
         <img
           className="absolute inset-0 h-100 w-100 object-cover rounded-t-xl"
           src={product.imageUrl}
@@ -33,7 +41,9 @@ function ProductCard() {
         />
         {/* Overlay to indicate clickability (optional, but good UX) */}
         <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-          <span className="text-white text-lg font-semibold">Click for Details</span>
+          <span className="text-white text-lg font-semibold">
+            Click for Details
+          </span>
         </div>
       </div>
       {/* Product Details Section */}
@@ -44,7 +54,10 @@ function ProductCard() {
             Electronics
           </div>
           {/* Product Name */}
-          <a href="#" className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
+          <a
+            href="#"
+            className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+          >
             {product.name}
           </a>
           {/* Product Description - Conditionally rendered */}
@@ -53,6 +66,11 @@ function ProductCard() {
               {product.description}
             </p>
           )}
+        </div>
+        <div className="mt-2 text-sm text-gray-600">
+          Rating:{" "}
+          <span className="font-bold text-yellow-500">{product.rating}</span> /
+          5
         </div>
         {/* Price and Add to Cart Button */}
         <div className="mt-4 flex items-center justify-between">
@@ -69,4 +87,3 @@ function ProductCard() {
 }
 
 export default ProductCard;
-

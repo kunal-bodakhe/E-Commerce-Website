@@ -1,13 +1,32 @@
 import React from "react";
-import useStore from "../Store.js"
+import useStore from "../Store.js";
+import z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
 // import X from '../assets/close-icon.png';
 
 import { useForm } from "react-hook-form";
 
 function AddProduct() {
-    const {onClose}=useStore();
-    
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { closePopup } = useStore();
+  const onClose=closePopup;
+  const productSchema = z.object({
+    title: z.string().min(1, "Product name is required"),
+    description: z.string().min(1, "Description is required"),
+    price: z.coerce.number().min(0.01, "Price must be greater than 0"), // Use coerce.number for number inputs
+    rating: z.coerce
+      .number()
+      .min(1, "Rating must be at least 1")
+      .max(5, "Rating cannot exceed 5"), // Use coerce.number
+    category: z.string().min(1, "Please select a category"), // Assuming empty string for default option
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(productSchema), // Integrate Zod schema here
+  });
 
   const onSubmit = (data) => {
     console.log("Product Data:", data);
@@ -16,17 +35,24 @@ function AddProduct() {
     onClose(); // Close the popup after successful submission
   };
 
+  
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {/* Product Name Input */}
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Name Of Product</label>
+        <label
+          htmlFor="title"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Name Of Product
+        </label>
         <input
           type="text"
           placeholder="Name Of Product"
           id="title"
-          {...register("title", { required: "Product name is required" })}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          {...register("title")}
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
         />
         {errors.title && (
           <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
@@ -35,32 +61,40 @@ function AddProduct() {
 
       {/* Product Description Input */}
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description Of Product</label>
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Description Of Product
+        </label>
         <textarea
           placeholder="Description Of Product"
           id="description"
-          {...register("description", { required: "Description is required" })}
+          {...register("description")}
           rows="3"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-y"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-y text-black"
         ></textarea>
         {errors.description && (
-          <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
+          <p className="mt-1 text-sm text-red-600">
+            {errors.description.message}
+          </p>
         )}
       </div>
 
       {/* Price Input */}
       <div>
-        <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">Price Of Product</label>
+        <label
+          htmlFor="price"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Price Of Product
+        </label>
         <input
           type="number"
           placeholder="Price Of Product"
           id="price"
-          {...register("price", {
-            required: "Price is required",
-            min: { value: 0.01, message: "Price must be greater than 0" },
-            valueAsNumber: true // Ensures the value is a number
-          })}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          {...register("price")}
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
         />
         {errors.price && (
           <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>
@@ -69,18 +103,19 @@ function AddProduct() {
 
       {/* Rating Input */}
       <div>
-        <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-1">Rating Of Product</label>
+        <label
+          htmlFor="rating"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Rating Of Product
+        </label>
         <input
           type="number"
           placeholder="Rating Of Product"
           id="rating"
-          {...register("rating", {
-            required: "Rating is required",
-            min: { value: 1, message: "Rating must be at least 1" },
-            max: { value: 5, message: "Rating cannot exceed 5" },
-            valueAsNumber: true // Ensures the value is a number
-          })}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          step="any"
+          {...register("rating")}
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
         />
         {errors.rating && (
           <p className="mt-1 text-sm text-red-600">{errors.rating.message}</p>
@@ -89,11 +124,16 @@ function AddProduct() {
 
       {/* Category Dropdown */}
       <div>
-        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+        <label
+          htmlFor="category"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Category
+        </label>
         <select
           id="category"
-          {...register("category", { required: "Please select a category" })}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          {...register("category")}
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
         >
           <option value="">-- Select a Category --</option>
           <option value="electronics">Electronics</option>

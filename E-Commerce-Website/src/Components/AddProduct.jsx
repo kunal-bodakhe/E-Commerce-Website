@@ -1,9 +1,12 @@
 import React from "react";
+import useStore from "../Store.js"
 // import X from '../assets/close-icon.png';
 
 import { useForm } from "react-hook-form";
 
-function AddProduct({onClose}) {
+function AddProduct() {
+    const {onClose}=useStore();
+    
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {

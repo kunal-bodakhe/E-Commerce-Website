@@ -10,14 +10,14 @@ import AddProduct from "./Components/AddProduct";
 function App() {
   // const [count, setCount] = useState(0);
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  console.log(isPopupOpen); // State to control popup visibility
+  // const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // console.log(isPopupOpen); // State to control popup visibility
 
-  const openPopup = () => {
-    setIsPopupOpen(true);
-    console.log(isPopupOpen);
-  };
-  const closePopup = () => setIsPopupOpen(false);
+  // const openPopup = () => {
+  //   setIsPopupOpen(true);
+  //   console.log(isPopupOpen);
+  // };
+  // const closePopup = () => setIsPopupOpen(false);
 
   // {
   //   isPopupOpen && (
@@ -43,7 +43,7 @@ function App() {
 
   return (
     <>
-      <Header openPopup={openPopup} closePopup={closePopup} isPopupOpen={isPopupOpen}/>
+      <Header/>
       <ProductCard />
     </>
   );

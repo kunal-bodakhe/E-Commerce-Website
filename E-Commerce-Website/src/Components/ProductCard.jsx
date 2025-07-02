@@ -23,7 +23,7 @@ function ProductCard() {
   };
 
   return (
-    <div className="max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden my-6">
+    <div className=" max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden my-6">
       {/* Product Image Section - Enforces a square aspect ratio */}
       <div className="relative w-full pt-[52%] cursor-pointer" onClick={toggleDescription}> {/* Added onClick and cursor-pointer */}
         <img

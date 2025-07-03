@@ -1,5 +1,6 @@
 import React from "react";
 import useStore from "../Store.js"
+import { useEffect } from "react";
 
 import SearchBlue from "../assets/Search-icon.png";
 import SearchBlack from "../assets/Search-icon.svg";
@@ -7,8 +8,26 @@ import { X } from 'lucide-react';
 import AddProduct from "./AddProduct";
 
 function Header() {
+      
+  const {openPopup , isPopupOpen , closePopup, setProducts, products, filteredProducts, filterByCategory}=useStore()  ;
+  // let Jewelery=false;
+  // if(Jewelery==true){
+  //     setProducts(products.filter((product)=>product.category==="Jewelery"));
+  //   }
+  // const currentProducts= products;
+  // console.log("hello",currentProducts);
+//   useEffect(() => {
 
-    const {openPopup , isPopupOpen , closePopup}=useStore()  ;
+//   filterByCategory("jewelery");
+// }, []);
+  
+//   if (Jewelery==true) {
+//   const filtered = currentProducts.filter(
+//     (product) => product.category === "jewelery"
+//   );
+//   setProducts(filtered);
+// }
+
   return (
     <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between flex-wrap">
@@ -59,13 +78,14 @@ function Header() {
             <select
               id="category-select"
               className="w-full py-2 pl-3 pr-8 rounded-md bg-blue-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-blue-600 appearance-none cursor-pointer transition-all duration-200 ease-in-out"
+              onChange={(e) => filterByCategory(e.target.value)}
             >
-              <option value="">All Categories</option>
+              <option value="all">All Categories</option>
               <option value="electronics">Electronics</option>
-              <option value="books">Books</option>
-              <option value="clothing">Clothing</option>
-              <option value="home-garden">Home & Garden</option>
-              <option value="sports">Sports</option>
+              <option value="jewelery">Jewelery</option>
+              <option value="women's clothing">Women's Clothing</option>
+              <option value="men's clothing">Men's Clothing</option>
+              <option value="others">Others</option>
             </select>
 
             {/* arrow for select box */}

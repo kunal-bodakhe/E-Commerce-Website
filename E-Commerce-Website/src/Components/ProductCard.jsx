@@ -5,7 +5,7 @@ import useStore from "../Store.js";
 import imageUrl from "../assets/Headphones.png";
 
 function ProductCard() {
-  const { toggleDescription, showDescriptionId, products } = useStore();
+  const { toggleDescription, showDescriptionId, filteredProducts } = useStore();
   // Placeholder data for the product
   // const product = {
   // name: "Premium Wireless Headphones",
@@ -31,7 +31,8 @@ function ProductCard() {
 
       {/* Responsive Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
+  
           <div key={product.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
             {/* Product Image */}
             <div

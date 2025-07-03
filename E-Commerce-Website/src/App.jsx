@@ -5,6 +5,7 @@ import "./App.css";
 import Header from "./Components/Header";
 import ProductCard from "./Components/ProductCard";
 import AddProduct from "./Components/AddProduct";
+import ApiComponent from "./Components/ApiComponent";
 // import X from "./assets/close-icon.png";
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <>
+      <ApiComponent/>
       <Header/>
       <ProductCard />
     </>

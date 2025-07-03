@@ -5,17 +5,17 @@ import useStore from "../Store.js";
 import imageUrl from "../assets/Headphones.png";
 
 function ProductCard() {
-  const { toggleDescription, showDescription } = useStore();
+  const { toggleDescription, showDescriptionId, products } = useStore();
   // Placeholder data for the product
-  const product = {
-    name: "Premium Wireless Headphones",
-    description:
-      "Experience immersive sound with these comfortable, noise-cancelling wireless headphones. Perfect for music lovers and professionals alike. Featuring crystal-clear audio, ergonomic design, and long-lasting battery life for all-day enjoyment.",
-    price: "$199.99",
-    imageUrl: imageUrl, // Updated placeholder for square
-    imageAlt: "Premium Wireless Headphones",
-    rating: 4.5,
-  };
+  // const product = {
+  // name: "Premium Wireless Headphones",
+  // description:
+  //   "Experience immersive sound with these comfortable, noise-cancelling wireless headphones. Perfect for music lovers and professionals alike. Featuring crystal-clear audio, ergonomic design, and long-lasting battery life for all-day enjoyment.",
+  // price: "$199.99",
+  // imageUrl: imageUrl, // Updated placeholder for square
+  // imageAlt: "Premium Wireless Headphones",
+  // rating: 4.5,
+  // };
 
   // State to manage the visibility of the description
   //   const [showDescription, setShowDescription] = useState(false);
@@ -25,62 +25,55 @@ function ProductCard() {
   //     setShowDescription(!showDescription);
   //   };
 
-  return (
-    <div className=" max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden my-6">
-      {/* Product Image Section - Enforces a square aspect ratio */}
-      <div
-        className="relative w-full pt-[52%] cursor-pointer"
-        onClick={toggleDescription}
-      >
-        {" "}
-        {/* Added onClick and cursor-pointer */}
-        <img
-          className="absolute inset-0 h-100 w-100 object-cover rounded-t-xl"
-          src={product.imageUrl}
-          alt={product.imageAlt}
-        />
-        {/* Overlay to indicate clickability (optional, but good UX) */}
-        <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-          <span className="text-white text-lg font-semibold">
-            Click for Details
-          </span>
-        </div>
-      </div>
-      {/* Product Details Section */}
-      <div className="p-8 flex flex-col justify-between">
-        <div>
-          {/* Category */}
-          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
-            Electronics
+  return(
+    <div className="px-4 sm:px-6 lg:px-12 py-8">
+      <h2 className="text-2xl font-bold mb-6">Products</h2>
+
+      {/* Responsive Grid Layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <div key={product.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+            {/* Product Image */}
+            <div
+              className="cursor-pointer flex justify-center bg-gray-100 p-4"
+              onClick={() => toggleDescription(product.id)}
+            >
+              <img
+                src={product.image}
+                alt={product.title}
+                className="h-[250px] w-auto object-contain"
+              />
+            </div>
+
+            {/* Product Details */}
+            <div className="p-6 flex flex-col justify-between">
+              <div>
+                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                  {product.category}
+                </div>
+                <h3 className="mt-1 text-lg font-medium text-black">{product.title}</h3>
+
+                {/* Conditional Description */}
+                {showDescriptionId === product.id && (
+                  <p className="mt-2 text-gray-500 transition-all duration-300">
+                    {product.description}
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-2 text-sm text-gray-600">
+                Rating: <span className="font-bold text-yellow-500">{product.rating.rate}</span> / 5
+              </div>
+
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-2xl font-bold text-gray-900">${product.price}</span>
+                <button className="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 transition duration-200">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
           </div>
-          {/* Product Name */}
-          <a
-            href="#"
-            className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
-          >
-            {product.name}
-          </a>
-          {/* Product Description - Conditionally rendered */}
-          {showDescription && (
-            <p className="mt-2 text-gray-500 transition-all duration-300 ease-in-out animate-fade-in">
-              {product.description}
-            </p>
-          )}
-        </div>
-        <div className="mt-2 text-sm text-gray-600">
-          Rating:{" "}
-          <span className="font-bold text-yellow-500">{product.rating}</span> /
-          5
-        </div>
-        {/* Price and Add to Cart Button */}
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-2xl font-bold text-gray-900">
-            {product.price}
-          </span>
-          <button className="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 transition-colors duration-200 ease-in-out">
-            Add to Cart
-          </button>
-        </div>
+        ))}
       </div>
     </div>
   );

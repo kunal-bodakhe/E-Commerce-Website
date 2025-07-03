@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useStore from "../Store.js";
 
 function ApiComponent() {
-  const { products, setProducts } = useStore();
+  const { setProducts } = useStore();
 
   // Fetch function for React Query
   const fetchProducts = async () => {
@@ -42,17 +42,6 @@ function ApiComponent() {
 
   return (
     <>
-      <div>
-        <h2>Your Products</h2>
-        <ul>
-          {products.map((item) => (
-            <li key={item.id}>
-              <h4>{item.title}</h4>
-              <p>Price: ${item.price}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
     </>
   );
 }

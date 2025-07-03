@@ -4,9 +4,10 @@ const useStore = create((set) => ({
   products: [],
   setProducts: (products) => set({ products }),
   isPopupOpen: false,
-  showDescription: false,
-  toggleDescription: () =>
-    set((state) => ({ showDescription: !state.showDescription })),
+  showDescriptionId: null,
+  toggleDescription: (key) => set((state) => ({
+    showDescriptionId: state.showDescriptionId === key ? null : key
+  })),
   openPopup: () => set((state) => ({ isPopupOpen: true })),
   closePopup: () => set((state) => ({ isPopupOpen: false })),
 }));

@@ -62,7 +62,8 @@ function ProductCard() {
               </div>
 
               <div className="mt-2 text-sm text-gray-600">
-                Rating: <span className="font-bold text-yellow-500">{product.rating.rate}</span> / 5
+                Rating: <span className="font-bold text-yellow-500">{product.rating.rate}</span> / 5 <br />
+                Rated By: <span className="font-bold text-yellow-500">{product.rating.count}</span>
               </div>
 
               <div className="mt-4 flex items-center justify-between">

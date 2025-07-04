@@ -2,16 +2,23 @@ import { create } from "zustand";
 
 const useStore = create((set) => ({
   products: [],
-  filteredProducts: [],
-  setProducts: (products) => set({ products, filteredProducts: products }), // set both initially
+  category:[],
+  categoryName:[],
+  categorisedProducts: [],
+  setProducts: (products) => set({ products, filteredProducts: products }), 
+  setCategory:(category) => set({ category }), // set both initially
 
-  filterByCategory: (category) =>
-    set((state) => ({
-      filteredProducts:
-        category === "all"
-          ? state.products
-          : state.products.filter((p) => p.category === category),
-    })),
+  setCategoryName:(categoryName) => set({ categoryName }),
+
+  setCategorisedProducts:(categorisedProducts) => set({ categorisedProducts }),
+
+  // filterByCategory: (category) =>
+  //   set((state) => ({
+  //     filteredProducts:
+  //       category === "all"
+  //         ? state.products
+  //         : state.products.filter((p) => p.category === category),
+  //   })),
   isPopupOpen: false,
   showDescriptionId: null,
   toggleDescription: (key) =>

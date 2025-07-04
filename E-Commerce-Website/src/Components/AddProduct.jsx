@@ -169,7 +169,6 @@ function AddProduct() {
           <option value="jewelery">Jewelery</option>
           <option value="women's clothing">Womens Clothing</option>
           <option value="men's clothing">Mens Clothing</option>
-          <option value="others">Others</option>
         </select>
         {errors.category && (
           <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>

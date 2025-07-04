@@ -9,15 +9,36 @@ import AddProduct from "./AddProduct";
 
 function Header() {
   const {
+    products,
     openPopup,
     isPopupOpen,
     closePopup,
-    filterByCategory,
-    filteredProducts,
     category,
     categoryName,
     setCategoryName,
+    setsearchText,
+    searchText,
+    setProducts,
+    searchProducts,
   } = useStore();
+
+  useEffect(() => {
+  if (searchText) {
+    searchProducts(searchText);
+  } else {
+    // Reset to full list if search is cleared
+    const { originalProducts, setProducts } = useStore.getState();
+    setProducts(originalProducts);
+  }
+}, [searchText]);
+
+//   if (searchText) {
+//   const allProducts = products; // get original list
+//   const filtered = allProducts.filter((product) =>
+//     product.description.toLowerCase().includes(searchText.toLowerCase())
+//   );
+//   setProducts(filtered);
+// }
 
   return (
     <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 sticky top-0 z-50">
@@ -103,6 +124,7 @@ function Header() {
                 placeholder="Search..."
                 className="w-full py-2 pl-2 pr-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-blue-600 transition-all duration-200 ease-in-out"
                 aria-label="Search input"
+                onChange={(e)=>setsearchText(e.target.value)}
               />
               <button
                 type="submit"

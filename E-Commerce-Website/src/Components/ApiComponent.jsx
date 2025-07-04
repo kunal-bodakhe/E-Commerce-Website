@@ -86,7 +86,7 @@ function ApiComponent() {
     }
   }, [error]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading The data Please Wait...</div>;
   if (isError) return <div>Error loading products</div>;
 
   return <></>;

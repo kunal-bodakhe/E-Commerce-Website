@@ -2,23 +2,29 @@ import { create } from "zustand";
 
 const useStore = create((set) => ({
   products: [],
-  category:[],
-  categoryName:[],
+  category: [],
+  categoryName: [],
   categorisedProducts: [],
-  setProducts: (products) => set({ products, filteredProducts: products }), 
-  setCategory:(category) => set({ category }), // set both initially
+  searchText: [],
+  originalProducts: [],
 
-  setCategoryName:(categoryName) => set({ categoryName }),
+  setProducts: (products) => set({ products, originalProducts: products }),
 
-  setCategorisedProducts:(categorisedProducts) => set({ categorisedProducts }),
+  searchProducts: (searchText) =>
+    set((state) => ({
+      products: state.originalProducts.filter((product) =>
+        product.title.toLowerCase().includes(searchText.toLowerCase())
+      ),
+    })),
 
-  // filterByCategory: (category) =>
-  //   set((state) => ({
-  //     filteredProducts:
-  //       category === "all"
-  //         ? state.products
-  //         : state.products.filter((p) => p.category === category),
-  //   })),
+  setCategory: (category) => set({ category }), // set both initially
+
+  setCategoryName: (categoryName) => set({ categoryName }),
+
+  setCategorisedProducts: (categorisedProducts) => set({ categorisedProducts }),
+
+  setsearchText: (searchText) => set({ searchText }),
+
   isPopupOpen: false,
   showDescriptionId: null,
   toggleDescription: (key) =>
@@ -28,15 +34,5 @@ const useStore = create((set) => ({
   openPopup: () => set((state) => ({ isPopupOpen: true })),
   closePopup: () => set((state) => ({ isPopupOpen: false })),
 }));
-
-// const useQueryAndStore = () => {
-//   const setUsers = useUserStore((s) => s.setUsers)
-
-//   return useQuery(['users'], fetchUsers, {
-//     onSuccess: (data) => {
-//       setUsers(data)
-//     },
-//   })
-// }
 
 export default useStore;

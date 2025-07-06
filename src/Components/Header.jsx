@@ -32,13 +32,6 @@ function Header() {
   }
 }, [searchText]);
 
-//   if (searchText) {
-//   const allProducts = products; // get original list
-//   const filtered = allProducts.filter((product) =>
-//     product.description.toLowerCase().includes(searchText.toLowerCase())
-//   );
-//   setProducts(filtered);
-// }
 
   return (
     <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg p-4 sticky top-0 z-50">

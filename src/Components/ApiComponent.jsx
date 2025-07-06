@@ -3,18 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useStore from "../Store.js";
 
 function ApiComponent() {
-  const { setProducts, setCategory, setCategorisedProducts, categoryName } =
-    useStore();
-
-  // Fetch function for React Query
-  const fetchProducts = async () => {
-    const response = await fetch("https://fakestoreapi.com/products/");
-    if (!response.ok) {
-      throw new Error("Could not fetch products");
-    }
-    const result = await response.json();
-    return result;
-  };
+  const { setCategory, setCategorisedProducts, categoryName } = useStore();
 
   const fetchCategories = async () => {
     const response = await fetch(
@@ -38,18 +27,12 @@ function ApiComponent() {
     return result;
   };
 
-  // Use React Query
+
   const {
-    data: products,
+    data: categories,
     isLoading,
     isError,
-    error,
   } = useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
-  });
-
-  const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
   });
@@ -60,12 +43,6 @@ function ApiComponent() {
     enabled: !!categoryName, // only run when categoryName is set
   });
 
-  // Handle success - update Zustand store when data is available
-  useEffect(() => {
-    if (products) {
-      setProducts(products);
-    }
-  }, [products, setProducts]);
 
   useEffect(() => {
     if (categories) {
@@ -79,12 +56,6 @@ function ApiComponent() {
     }
   }, [productCategory, setCategorisedProducts]);
 
-  // Handle error - log error when it occurs
-  useEffect(() => {
-    if (error) {
-      console.error("Fetch failed:", error.message); // Debug
-    }
-  }, [error]);
 
   if (isLoading) return <div>Loading The data Please Wait...</div>;
   if (isError) return <div>Error loading products</div>;

@@ -1,6 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import useStore from "../Store.js";
+import { useQuery } from "@tanstack/react-query";
+
 
 import imageUrl from "../assets/Headphones.png";
 
@@ -10,8 +12,43 @@ function ProductCard() {
     showDescriptionId,
     categorisedProducts,
     products,
+    setProducts,
     categoryName,
   } = useStore();
+
+  const fetchProducts = async () => {
+    const response = await fetch("https://fakestoreapi.com/products/");
+    if (!response.ok) {
+      throw new Error("Could not fetch products");
+    }
+    const result = await response.json();
+    return result;
+  };
+
+  const {
+    data: allProducts,
+    isLoading,   
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+  });
+
+  useEffect(() => {
+    if (allProducts) {
+      setProducts(allProducts);
+    }
+  }, [allProducts, setProducts]);
+
+    useEffect(() => {
+    if (error) {
+      console.error("Fetch failed:", error.message); // Debug
+    }
+  }, [error]);
+
+  if (isLoading) return <div>Loading The data Please Wait...</div>;
+  if (isError) return <div>Error loading products</div>;
 
   return (
     <div className="px-4 sm:px-6 lg:px-12 py-8">
@@ -49,7 +86,7 @@ function ProductCard() {
 
                     {/* Conditional Description */}
                     {showDescriptionId === product.id && (
-                     <>
+                      <>
                         <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
                           {product.category}
                         </div>
